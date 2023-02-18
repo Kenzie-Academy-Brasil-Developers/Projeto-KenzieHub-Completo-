@@ -42,21 +42,19 @@ const RegisterPage = () => {
   });
 
   const navigate = useNavigate();
-
-  console.log("teste", errors);
   const onSubmit = async (data) => {
-    console.log(data);
+
 
     try {
       const response = await api.post("/users", data);
-      console.log(response);
+
       setTimeout(() => {
         navigate("/");
       },1000);
       toast.success("Conta Criada com sucesso!");
 
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("Ops! Algo deu errado");
     }
   };

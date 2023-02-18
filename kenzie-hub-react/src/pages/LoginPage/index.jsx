@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Login from "../../Styles/Login/styles";
 import { motion } from "framer-motion";
 import { Link, useNavigate} from "react-router-dom";
@@ -7,6 +7,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { api } from "../../Request";
+
 
 const schema = yup.object().shape({
   email: yup
@@ -26,21 +27,23 @@ const LoginPage = () => {
   });
 
   const navigate = useNavigate();
-
-  console.log("teste", errors);
+  const [userId, setUserId] = useState('');
+  
   const onSubmit = async (data) => {
-    console.log(data);
-
+    
+    
     try {
       const response = await api.post("/sessions", data);
-      localStorage.setItem("@LOGINUSER",response.data.token)
-      setTimeout(() => {
-        navigate("/dashboard");
-      },1000);
+      localStorage.setItem("@LOGINUSER",response.data.token)  
+      localStorage.setItem('@userId', response.data.user.id);
+      setUserId(userId);
+      
+       navigate("/dashboard");
+
       toast.success("Logado com sucesso!");
 
     } catch (error) {
-      console.log(error);
+      console.error(error)
       toast.error("Ops! Algo deu errado");
     }
   };
