@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import Login from "../../Styles/Login/styles";
 import { motion } from "framer-motion";
-import { Link, useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { api } from "../../Request";
-
+import InputLogin from "../../components/InputLogin";
+import { Button, Link } from "../../Styles/Buttons/button";
+import { UserContext } from "../../providers/user";
 
 const schema = yup.object().shape({
   email: yup
@@ -18,6 +20,8 @@ const schema = yup.object().shape({
 });
 
 const LoginPage = () => {
+  const { userId, setUserId } = useContext(UserContext)
+
   const {
     register,
     handleSubmit,
@@ -27,23 +31,19 @@ const LoginPage = () => {
   });
 
   const navigate = useNavigate();
-  const [userId, setUserId] = useState('');
-  
+
   const onSubmit = async (data) => {
-    
-    
     try {
       const response = await api.post("/sessions", data);
-      localStorage.setItem("@LOGINUSER",response.data.token)  
-      localStorage.setItem('@userId', response.data.user.id);
+      localStorage.setItem("@LOGINUSER", response.data.token);
+      localStorage.setItem("@userId", response.data.user.id);
       setUserId(userId);
-      
-       navigate("/dashboard");
+
+      navigate("/dashboard");
 
       toast.success("Logado com sucesso!");
-
     } catch (error) {
-      console.error(error)
+      console.error(error);
       toast.error("Ops! Algo deu errado");
     }
   };
@@ -62,28 +62,29 @@ const LoginPage = () => {
             <h2>Login</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="email">
-                <label htmlFor="email">Email</label>
-                <input
+                <InputLogin
+                  placeholder="Digite seu Email"
+                  label="Email"
                   id="email"
                   type="email"
-                  placeholder="Digite seu Email..."
-                  {...register("email")}
+                  register={register}
+                  error={errors.email?.message}
                 />
-                <p className="error">{errors.email?.message}</p>
               </div>
               <div className="pass">
-                <label htmlFor="password">Senha</label>
-                <input
+                <InputLogin
+                  placeholder="Digite sua Senha"
+                  label="Senha"
                   id="password"
                   type="password"
-                  placeholder="Digite sua senha..."
-                  {...register("password")}
+                  register={register}
+                  error={errors.password?.message}
                 />
-                <p className="error">{errors.password?.message}</p>
               </div>
-              <button type="submit" className="enter">
+
+              <Button type="submit" className="enter">
                 Entrar
-              </button>
+              </Button>
               <span>Ainda não possui uma conta?</span>
               <Link to={"/register"} type="submit" className="sing-up">
                 Cadastre-se

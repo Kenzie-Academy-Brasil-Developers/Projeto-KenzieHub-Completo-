@@ -88,18 +88,6 @@ const Register = styled.main`
     width: 20.625rem;
   }
 
-  .register{
-    height: 3rem;
-    width: 20.625rem;
-    border: 0.0761rem solid var(--color-grey-2);
-    border-radius: 0.25rem;
-    background-color:var(--color-primary-negative);
-    font-weight: 500;
-    font-size: 1rem;
-    color:var(--color-grey-0);
-    margin-top: 1.25rem;
-  }
-
 p{
   font-size:0.75rem;
   color:var(--color-grey-1);

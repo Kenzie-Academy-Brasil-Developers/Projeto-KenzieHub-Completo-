@@ -36,8 +36,7 @@ const DashBoard = styled.section`
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 11.875rem;
-    margin-top: 3.125rem;
+    gap: 18.875rem;
     border-bottom: solid 0.0625rem var(--color-grey-2);
     height: 7.8125rem;
   }
@@ -55,21 +54,60 @@ const DashBoard = styled.section`
 
   main {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: flex-start;
-    gap: 2.125rem;
-    padding-top: 6.75rem;
   }
 
-  main h2 {
+  .technology{
+    margin: 0 auto;
+    background-color: var(--color-grey-3);
+    padding: 5px;
+    border-radius: 0.5rem;
+    padding: 1.625rem;
+  }
+  .container{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    margin: 0 auto;
+    padding: 2.8125rem 0;
+  }
+
+  p{
+    color: var(--color-grey-0)
+  }
+
+  .tech{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-items: center;
+    gap: 503px;
+  }
+
+  .buttonAdd{
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.375rem;
+    background-color: var(--color-grey-3);
     color: var(--color-grey-0);
+    border: transparent;
   }
 
-  main h3 {
+  h2 {
+    color: var(--color-grey-0);
+    text-align:center;
+    font-Size: 0.75rem;
+    margin-bottom:0.625rem;
+  }
+
+  h3 {
     color: var(--color-grey-0);
     font-weight: 300;
-    font-size: 1.0625rem;
+    font-Size: 0.75rem;
+    text-align:center;
   }
 
   .input-text {

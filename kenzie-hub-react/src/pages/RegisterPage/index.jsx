@@ -1,16 +1,17 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Register from "../../Styles/Register";
+import Register from "../../Styles/Register/index";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { api } from "../../Request";
 import { toast } from "react-toastify";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import Input from "../../components/InputRegister";
+import { ButtonRegister } from "../../Styles/Buttons/button";
 
 const schema = yup.object().shape({
-  name: yup
-    .string().required("Nome é um campo obrigatório"),
+  name: yup.string().required("Nome é um campo obrigatório"),
   email: yup
     .string()
     .email("Deve fornecer um email válido")
@@ -26,10 +27,8 @@ const schema = yup.object().shape({
     .string()
     .oneOf([yup.ref("password"), null], "Confirmação não coincide com a senha")
     .required("É necessário confirmar a senha"),
-  bio: yup
-    .string().required("Bio é um campo obrigatório"),
-  contact: yup
-    .string().required("Contato é um campo obrigatório"),
+  bio: yup.string().required("Bio é um campo obrigatório"),
+  contact: yup.string().required("Contato é um campo obrigatório"),
 });
 
 const RegisterPage = () => {
@@ -43,16 +42,13 @@ const RegisterPage = () => {
 
   const navigate = useNavigate();
   const onSubmit = async (data) => {
-
-
     try {
-      const response = await api.post("/users", data);
+      await api.post("/users", data);
 
       setTimeout(() => {
         navigate("/");
-      },1000);
+      }, 1000);
       toast.success("Conta Criada com sucesso!");
-
     } catch (error) {
       console.error(error);
       toast.error("Ops! Algo deu errado");
@@ -77,72 +73,54 @@ const RegisterPage = () => {
             <h2>Crie sua conta</h2>
             <h4>Rapido e grátis, vamos nessa</h4>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div>
-                <label htmlFor="name">Nome</label>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Digite aqui seu nome"
-                  id="name"
-                  {...register("name")}
-                />
-                <p>{errors.name?.message}</p>
-              </div>
-              <div>
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Digite aqui seu email"
-                  id="email"
-                  {...register("email")}
-                />
-                <p>{errors.email?.message}</p>
-              </div>
-              <div>
-                <label htmlFor="password">Senha</label>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Digite aqui sua senha"
-                  id="password"
-                  {...register("password")}
-                />
-                    <p>{errors.password?.message}</p>
-              </div>
-              <div>
-                <label htmlFor="confirmPassword">Confirmar Senha</label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  placeholder="Digite novamente sua senha"
-                  id="confirmPassword"
-                 {...register("confirmPassword")}
-                />
-                    <p>{errors.confirmPassword?.message}</p>
-              </div>
-              <div>
-                <label htmlFor="text">Bio</label>
-                <input
-                  type="text"
-                  name="bio"
-                  placeholder="Fale sobre você"
-                  id="bio"
-                  {...register("bio")}
-                />
-                <p>{errors.bio?.message}</p>
-              </div>
-              <div>
-                <label htmlFor="contact">Contato</label>
-                <input
-                  type="text"
-                  name="contact"
-                  placeholder="Opção de contato"
-                  id="contact"
-                  {...register("contact")}
-                />
-                 <p>{errors.contact?.message}</p>
-              </div>
+              <Input
+                placeholder="Digite seu Nome"
+                label="Nome"
+                id="name"
+                type="text"
+                register={register}
+                error={errors.name?.message}
+              />
+              <Input
+                placeholder="Digite seu Email"
+                label="Email"
+                id="email"
+                type="email"
+                register={register}
+                error={errors.email?.message}
+              />
+              <Input
+                placeholder="Digite seu senha"
+                label="Senha"
+                id="password"
+                type="password"
+                register={register}
+                error={errors.password?.message}
+              />
+              <Input
+                placeholder="Digite novamente seu senha"
+                label="Confirmar senha"
+                id="confirmPassword"
+                type="password"
+                register={register}
+                error={errors.confirmPassword?.message}
+              />
+              <Input
+                placeholder="Fale sobre você"
+                label="Bio"
+                id="bio"
+                type="text"
+                register={register}
+                error={errors.bio?.message}
+              />
+              <Input
+                placeholder="Opção de contato"
+                label="Contato"
+                id="contact"
+                type="text"
+                register={register}
+                error={errors.contact?.message}
+              />
               <div>
                 <label htmlFor="module">Selecionar Módulo</label>
                 <select
@@ -163,9 +141,9 @@ const RegisterPage = () => {
                     Quarto módulo (Backend Avançado)
                   </option>
                 </select>
-                <button type="submit" className="register">
+                <ButtonRegister type="submit" className="register">
                   Cadastrar
-                </button>
+                </ButtonRegister>
               </div>
             </form>
           </main>
