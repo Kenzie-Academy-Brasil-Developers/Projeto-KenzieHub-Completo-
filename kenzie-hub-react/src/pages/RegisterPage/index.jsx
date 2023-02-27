@@ -41,7 +41,8 @@ const RegisterPage = () => {
   });
 
   const navigate = useNavigate();
-  const onSubmit = async (data) => {
+
+  const onSubmitRegister = async (data) => {
     try {
       await api.post("/users", data);
 
@@ -72,7 +73,7 @@ const RegisterPage = () => {
           <main>
             <h2>Crie sua conta</h2>
             <h4>Rapido e grátis, vamos nessa</h4>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmitRegister)}>
               <Input
                 placeholder="Digite seu Nome"
                 label="Nome"

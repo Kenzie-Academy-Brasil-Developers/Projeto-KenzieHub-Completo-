@@ -3,15 +3,18 @@ import styled from "styled-components";
 const DashBoard = styled.section`
   section {
     background-color: var(--color-grey-4);
+    max-width: 100%;
+    display:flex;
+    flex-direction: column;
+    padding: 0px 10% 0px 10%;
   }
 
   .title-back {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 27.125rem;
+    justify-content: space-between;
     height: 5.375rem;
-    border: solid 0.0625rem var(--color-grey-2);
+    border-bottom: solid 0.0625rem var(--color-grey-2);
   }
 
   .title-back h1 {
@@ -35,10 +38,10 @@ const DashBoard = styled.section`
   header {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 18.875rem;
     border-bottom: solid 0.0625rem var(--color-grey-2);
-    height: 7.8125rem;
+    height: 5.8125rem;
+    margin-bottom: 10px;
+    justify-content: space-between;
   }
 
   header h2 {
@@ -58,36 +61,25 @@ const DashBoard = styled.section`
     align-items: center;
   }
 
-  .technology{
+  .technology {
     margin: 0 auto;
     background-color: var(--color-grey-3);
     padding: 5px;
     border-radius: 0.5rem;
     padding: 1.625rem;
   }
-  .container{
-    width: 60%;
+  .container {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items:center;
-    margin: 0 auto;
-    padding: 2.8125rem 0;
-  }
-
-  p{
-    color: var(--color-grey-0)
-  }
-
-  .tech{
-    display: flex;
-    flex-direction: row;
     align-items: center;
-    align-items: center;
-    gap: 503px;
+    padding: 20px 0% 20px 0%;
+    justify-content: space-between;
   }
 
-  .buttonAdd{
+  p {
+    color: var(--color-grey-0);
+  }
+
+  .buttonAdd {
     width: 2rem;
     height: 2rem;
     font-size: 1.375rem;
@@ -98,29 +90,27 @@ const DashBoard = styled.section`
 
   h2 {
     color: var(--color-grey-0);
-    text-align:center;
-    font-Size: 0.75rem;
-    margin-bottom:0.625rem;
+    text-align: center;
+    font-size: 0.75rem;
+    margin-bottom: 0.625rem;
   }
 
   h3 {
     color: var(--color-grey-0);
     font-weight: 300;
-    font-Size: 0.75rem;
-    text-align:center;
+    font-size: 0.75rem;
+    text-align: center;
   }
 
   .input-text {
     background-color: var(--grey-1);
   }
 
-  @media (max-width: 48rem) {
-    .title-back {
-      gap: 6.25rem;
-    }
-    main {
-      padding: 10%;
+  @media(max-width:425px){
+    header{
+      gap: 15px;
     }
   }
+ 
 `;
 export default DashBoard;

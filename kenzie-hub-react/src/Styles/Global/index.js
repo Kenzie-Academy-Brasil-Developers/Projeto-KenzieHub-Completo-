@@ -30,6 +30,13 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     text-decoration: none;
 
+h5{
+  font-size:20px;
+  color: var(--color-grey-0);
+  text-align:center;
+  margin-top:20%;
+}
+
     
 
     button{

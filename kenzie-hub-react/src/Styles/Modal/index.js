@@ -9,6 +9,10 @@ const Modalstyled = styled.div`
     margin: 0 auto;
     margin-top: 30px;
     margin-bottom: 30px;
+    position: absolute;
+    left:0;
+    top:15%;
+    right:0;
   }
 
   .modalHeader {
@@ -63,6 +67,12 @@ const Modalstyled = styled.div`
     font-size: 1rem;
     color: var(--color-grey-0);
     margin-top: 10px;
+  }
+ 
+  @media(max-width:425px){
+    .modal{
+      width: 300px;
+    }
   }
 `;
 export default Modalstyled;

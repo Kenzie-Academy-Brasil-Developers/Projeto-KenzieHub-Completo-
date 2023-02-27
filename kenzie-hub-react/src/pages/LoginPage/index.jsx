@@ -20,7 +20,7 @@ const schema = yup.object().shape({
 });
 
 const LoginPage = () => {
-  const { userId, setUserId } = useContext(UserContext)
+  const { setdatause, setUserId } = useContext(UserContext);
 
   const {
     register,
@@ -32,12 +32,13 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
+  const onSubmitLogin = async (data) => {
     try {
       const response = await api.post("/sessions", data);
       localStorage.setItem("@LOGINUSER", response.data.token);
       localStorage.setItem("@userId", response.data.user.id);
-      setUserId(userId);
+      setdatause(response.data.user);
+      setUserId(response.data.user);
 
       navigate("/dashboard");
 
@@ -60,7 +61,7 @@ const LoginPage = () => {
           <h1>Kenzie Hub</h1>
           <section>
             <h2>Login</h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmitLogin)}>
               <div className="email">
                 <InputLogin
                   placeholder="Digite seu Email"

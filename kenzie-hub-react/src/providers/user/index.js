@@ -1,19 +1,92 @@
-import { createContext, useState } from "react";
-
+import { createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import api from "../../Request";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 export const UserContext = createContext({})
 
 export const UserProvider = ({ children }) => {
-    const [userId, setUserId] = useState("");
-    const [datauser, setdatause] = useState({});
+  const navigate = useNavigate();
+  const [userId, setUserId] = useState("");
+  const [datauser, setdatause] = useState({});
+  const { handleSubmit, register } = useForm();
+  const [technology, setechnology] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-    return(
-        <UserContext.Provider value={{
-            userId, setUserId,
-            datauser, setdatause
-        }}>
-            {children}
-        </UserContext.Provider>
-    )
+
+  async function createTech(data) {
+    try {
+      const getToken = localStorage.getItem("@LOGINUSER");
+      const response = await api.post("/users/techs", data, {
+        headers: {
+          Authorization: `Bearer ${getToken}`,
+        },
+      });
+      toast.success("Tecnologia criada com sucesso!")
+      setechnology([...technology, response.data && setIsModalOpen(false)]);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  async function RemoveTech(tech_id) {
+    try {
+      const getToken = localStorage.getItem("@LOGINUSER");
+      const RemoveTech = await api.delete(`/users/techs/${tech_id}`, {
+        headers: {
+          Authorization: `Bearer ${getToken}`,
+        },
+      });
+
+      if (RemoveTech) {
+        toast.success("Tecnologia deletada com sucesso!", {});
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Erro ao deletar tecnologia", {});
+    }
+  }
+
+  useEffect(() => {
+    const getToken = localStorage.getItem("@LOGINUSER");
+    if (getToken) {
+      async function getUser() {
+        try {
+          const response = await api.get("/profile", {
+            headers: {
+              Authorization: `Bearer ${getToken}`,
+            },
+          });
+          if (response.data) {
+            setechnology(response.data);
+            setTimeout(() => {
+              setLoading(false);
+            }, 1000);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      getUser();
+    }
+
+  }, [datauser]);
+
+  return (
+    <UserContext.Provider value={{
+      userId, setUserId,
+      datauser, setdatause, createTech,
+      isModalOpen, setIsModalOpen, RemoveTech,
+      navigate, handleSubmit, register, loading,
+
+    }}>
+      
+      {children}
+    </UserContext.Provider>
+  )
 
 }

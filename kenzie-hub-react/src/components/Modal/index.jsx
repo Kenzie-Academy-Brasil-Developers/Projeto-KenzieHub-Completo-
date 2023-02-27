@@ -1,20 +1,7 @@
 import React from "react";
-import { useForm } from "react-hook-form";
-import { api } from "../../Request/index";
 import Modalstyled from "../../Styles/Modal";
 
-function Modal({ isModalOpen, setIsModalOpen }) {
-  const { handleSubmit, register } = useForm();
-
-  async function createTech(data) {
-    try {
-      const response = await api.post("/users/techs", data);
-      console.log(response.data);
-      response.data && setIsModalOpen(false);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+function Modal({ isModalOpen, setIsModalOpen, createTech, handleSubmit, register }) {
 
   return (
     <div>
@@ -42,7 +29,7 @@ function Modal({ isModalOpen, setIsModalOpen }) {
                 <option value="Intermediário">Intermediário</option>
                 <option value="Avançado">Avançado</option>
               </select>
-              <button type="submit" className="buttonRegisterModal ">
+              <button type="submit" className="buttonRegisterModal">
                 Cadastrar tecnologia
               </button>
             </form>
