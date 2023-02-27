@@ -17,7 +17,6 @@ const DashBoardPage = () => {
     navigate,
     handleSubmit,
     register,
-    loading,
   } = useContext(UserContext);
 
   function userLogout() {
@@ -28,13 +27,6 @@ const DashBoardPage = () => {
     }, 2000);
     toast.info("Deslogado com sucesso!");
   }
-
-  if (loading) {
-    return (
-          <h5>Carregando...</h5>
-    );
-  }
-
 
   return (
     <div>
@@ -53,7 +45,7 @@ const DashBoardPage = () => {
               </button>
             </nav>
             <Header datauser={datauser} />
-            <div className="container">
+            <div className="container tech">
               <p>Tecnologias</p>
               <button
                 onClick={() => setIsModalOpen(true)}
@@ -76,6 +68,8 @@ const DashBoardPage = () => {
                 </ul>
               )}
             </div>
+            
+
             <Modal
               isModalOpen={isModalOpen}
               setIsModalOpen={setIsModalOpen}

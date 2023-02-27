@@ -9,6 +9,8 @@ const DashBoard = styled.section`
     padding: 0px 10% 0px 10%;
   }
 
+  
+
   .title-back {
     display: flex;
     align-items: center;

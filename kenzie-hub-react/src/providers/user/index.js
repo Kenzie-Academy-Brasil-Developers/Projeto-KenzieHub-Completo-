@@ -13,7 +13,6 @@ export const UserProvider = ({ children }) => {
   const { handleSubmit, register } = useForm();
   const [technology, setechnology] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
 
 
   async function createTech(data) {
@@ -61,12 +60,7 @@ export const UserProvider = ({ children }) => {
               Authorization: `Bearer ${getToken}`,
             },
           });
-          if (response.data) {
-            setechnology(response.data);
-            setTimeout(() => {
-              setLoading(false);
-            }, 1000);
-          }
+          setdatause(response.data);
         } catch (error) {
           console.error(error);
         }
@@ -81,7 +75,7 @@ export const UserProvider = ({ children }) => {
       userId, setUserId,
       datauser, setdatause, createTech,
       isModalOpen, setIsModalOpen, RemoveTech,
-      navigate, handleSubmit, register, loading,
+      navigate, handleSubmit, register
 
     }}>
       
