@@ -1,54 +1,48 @@
 import { createContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import api from "../../Request";
-import { useNavigate } from "react-router-dom";
+
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const UserContext = createContext({})
 
 export const UserProvider = ({ children }) => {
-  const navigate = useNavigate();
   const [userId, setUserId] = useState("");
   const [datauser, setdatause] = useState({});
   const { handleSubmit, register } = useForm();
-  const [technology, setechnology] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate()
 
-
-  async function createTech(data) {
+  const onSubmitRegister = async (data) => {
     try {
-      const getToken = localStorage.getItem("@LOGINUSER");
-      const response = await api.post("/users/techs", data, {
-        headers: {
-          Authorization: `Bearer ${getToken}`,
-        },
-      });
-      toast.success("Tecnologia criada com sucesso!")
-      setechnology([...technology, response.data && setIsModalOpen(false)]);
-      console.log(response.data);
+      await api.post("/users", data);
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+      toast.success("Conta Criada com sucesso!");
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      toast.error("Ops! Algo deu errado");
     }
-  }
+  };
 
-
-  async function RemoveTech(tech_id) {
+  const onSubmitLogin = async (data) => {
     try {
-      const getToken = localStorage.getItem("@LOGINUSER");
-      const RemoveTech = await api.delete(`/users/techs/${tech_id}`, {
-        headers: {
-          Authorization: `Bearer ${getToken}`,
-        },
-      });
+      const response = await api.post("/sessions", data);
+      localStorage.setItem("@LOGINUSER", response.data.token);
+      localStorage.setItem("@userId", response.data.user.id);
+      setdatause(response.data.user);
+      setUserId(response.data.user);
 
-      if (RemoveTech) {
-        toast.success("Tecnologia deletada com sucesso!", {});
-      }
+      navigate("/dashboard");
+
+      toast.success("Logado com sucesso!");
     } catch (error) {
-      console.log(error);
-      toast.error("Erro ao deletar tecnologia", {});
+      console.error(error);
+      toast.error("Ops! Algo deu errado");
     }
-  }
+  };
 
   useEffect(() => {
     const getToken = localStorage.getItem("@LOGINUSER");
@@ -61,24 +55,32 @@ export const UserProvider = ({ children }) => {
             },
           });
           setdatause(response.data);
+          navigate('/dashboard')
         } catch (error) {
           console.error(error);
         }
       }
       getUser();
     }
+  }, [datauser, navigate]);
 
-  }, [datauser]);
+  function userLogout() {
+    localStorage.removeItem("@LOGINUSER");
+    localStorage.removeItem("@userId");
+    setTimeout(() => {
+      navigate("/");
+    }, 2000);
+    toast.info("Deslogado com sucesso!");
+  }
 
   return (
     <UserContext.Provider value={{
       userId, setUserId,
-      datauser, setdatause, createTech,
-      isModalOpen, setIsModalOpen, RemoveTech,
-      navigate, handleSubmit, register
+      datauser, setdatause,
+      handleSubmit, register, onSubmitLogin, onSubmitRegister, userLogout
 
     }}>
-      
+
       {children}
     </UserContext.Provider>
   )

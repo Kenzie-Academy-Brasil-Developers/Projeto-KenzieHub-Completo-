@@ -1,4 +1,3 @@
-import React from "react";
 import Modalstyled from "../../Styles/Modal";
 
 function Modal({ isModalOpen, setIsModalOpen, createTech, handleSubmit, register }) {

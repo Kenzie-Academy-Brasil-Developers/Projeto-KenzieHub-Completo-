@@ -1,14 +1,13 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import Register from "../../Styles/Register/index";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { api } from "../../Request";
-import { toast } from "react-toastify";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Input from "../../components/InputRegister";
 import { ButtonRegister } from "../../Styles/Buttons/button";
+import { UserContext } from "../../providers/user";
 
 const schema = yup.object().shape({
   name: yup.string().required("Nome é um campo obrigatório"),
@@ -32,6 +31,8 @@ const schema = yup.object().shape({
 });
 
 const RegisterPage = () => {
+  const {onSubmitRegister } = useContext(UserContext)
+
   const {
     register,
     handleSubmit,
@@ -40,21 +41,7 @@ const RegisterPage = () => {
     resolver: yupResolver(schema),
   });
 
-  const navigate = useNavigate();
 
-  const onSubmitRegister = async (data) => {
-    try {
-      await api.post("/users", data);
-
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
-      toast.success("Conta Criada com sucesso!");
-    } catch (error) {
-      console.error(error);
-      toast.error("Ops! Algo deu errado");
-    }
-  };
   return (
     <>
       <motion.div

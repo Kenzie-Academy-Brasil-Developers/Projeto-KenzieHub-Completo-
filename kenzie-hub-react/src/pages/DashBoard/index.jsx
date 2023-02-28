@@ -1,32 +1,17 @@
 import React, { useContext } from "react";
 import DashBoard from "../../Styles/DashBoard";
 import { motion } from "framer-motion";
-import { toast } from "react-toastify";
 import Header from "../../components/Header";
 import { UserContext } from "../../providers/user";
 import Modal from "../../components/Modal";
 import Card from "../../components/Card";
+import { TechContext } from "../../providers/TechContext";
 
 const DashBoardPage = () => {
-  const {
-    datauser,
-    createTech,
-    isModalOpen,
-    setIsModalOpen,
-    RemoveTech,
-    navigate,
-    handleSubmit,
-    register,
-  } = useContext(UserContext);
-
-  function userLogout() {
-    localStorage.removeItem("@LOGINUSER");
-    localStorage.removeItem("@userId");
-    setTimeout(() => {
-      navigate("/");
-    }, 2000);
-    toast.info("Deslogado com sucesso!");
-  }
+  const { datauser, handleSubmit, register, userLogout } =
+    useContext(UserContext);
+  const { createTech, RemoveTech, isModalOpen, setIsModalOpen } =
+    useContext(TechContext);
 
   return (
     <div>
@@ -68,8 +53,6 @@ const DashBoardPage = () => {
                 </ul>
               )}
             </div>
-            
-
             <Modal
               isModalOpen={isModalOpen}
               setIsModalOpen={setIsModalOpen}

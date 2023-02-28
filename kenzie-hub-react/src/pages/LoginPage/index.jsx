@@ -1,12 +1,9 @@
 import React, { useContext } from "react";
 import Login from "../../Styles/Login/styles";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import { api } from "../../Request";
 import InputLogin from "../../components/InputLogin";
 import { Button, Link } from "../../Styles/Buttons/button";
 import { UserContext } from "../../providers/user";
@@ -20,7 +17,7 @@ const schema = yup.object().shape({
 });
 
 const LoginPage = () => {
-  const { setdatause, setUserId } = useContext(UserContext);
+  const {onSubmitLogin } = useContext(UserContext)
 
   const {
     register,
@@ -29,25 +26,6 @@ const LoginPage = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
-  const navigate = useNavigate();
-
-  const onSubmitLogin = async (data) => {
-    try {
-      const response = await api.post("/sessions", data);
-      localStorage.setItem("@LOGINUSER", response.data.token);
-      localStorage.setItem("@userId", response.data.user.id);
-      setdatause(response.data.user);
-      setUserId(response.data.user);
-
-      navigate("/dashboard");
-
-      toast.success("Logado com sucesso!");
-    } catch (error) {
-      console.error(error);
-      toast.error("Ops! Algo deu errado");
-    }
-  };
 
   return (
     <>
